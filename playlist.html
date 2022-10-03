@@ -1,0 +1,97 @@
+<div class="sticky z-10 top-0 px-2 py-2 sm:py-2.5 flex items-center border-b-2 border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 dark:text-white" data-role="header">
+    	<a href="#video" class="p-2" data-rel="back" title="返回"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+</svg>
+</a>
+        <h1 class="line-1 border-l border-gray-500 px-2" x-text="$store.tu.title"></h1>
+</div>
+
+<div class="pageback content playlistpage scroll-smooth dark:text-white">
+<div class="container max-w-screen-xl mx-auto px-2 md:px-4">
+
+
+<template x-if="$store.tu.mediaid">
+<div x-data="{apiurl:'./api/mediaid.php?mediaid='+$store.tu.mediaid+'&page=',page:1,total:0,zhuangtai:true,allvideo:false}"
+x-init="fetch(apiurl+page).then(data => data.json()).then(data=>{allvideo=data.data.medias;total=data.data.info.media_count;})">
+<h3 class="mt-5 mb-3 border-b-4 text-xl font-bold border-blue-400 inline-block" x-text="$store.tu.title"></h3>
+<template x-if="allvideo">
+<div>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4 sm:gap-8">
+<template x-for="(item,i) in allvideo">
+<a :href="'./player.html?type=player&mediaid='+$store.tu.mediaid+'&title='+item.title+'&bv='+item.bvid+'&pic='+item.cover+'&back=playlist&ver='+version" data-reload="videopage" class="zeload"
+ data-container="container" :data-title="item.title" data-mask>
+<div class="media media-16x9 rounded-lg shadow-lg">
+<img :src="item.cover+'@190w_143h_1e.webp'" class="w-full h-full object-cover media-content rounded-lg">
+</div>
+<p x-text="item.title" class="mt-2 text-sm line-1"></p>
+</a>
+</template>
+</div>
+
+
+<div class="text-center text-sm text-white mt-5">
+<template x-for="p in (Math.ceil(total/20))">
+<button class="px-4 py-2 bg-blue-500 rounded-md mx-1" :class="{'bg-blue-300':page==p}" @click="
+page=p;
+fetch(apiurl+page).then(data => data.json()).then(data=>{
+[].slice.call(document.querySelectorAll('.playlistpage')).forEach(function (playlistpage) {
+playlistpage.scrollTo(0, 0);
+});allvideo=data.data.medias;
+})
+" x-text="p"></button>
+</template>
+</div>
+
+</div>
+</template>
+</div>
+</template>
+
+
+<template x-if="$store.tu.seasonid">
+<div x-data="{apiurl:'./api/mediaid.php?seasonid='+$store.tu.seasonid+'&page=',page:1,total:0,zhuangtai:true,allvideo:false}"
+x-init="fetch(apiurl+page).then(data => data.json()).then(data=>{allvideo=data.data.medias;total=data.data.info.media_count;})">
+<h3 class="mt-5 mb-3 border-b-4 text-xl font-bold border-blue-400 inline-block" x-text="$store.tu.title"></h3>
+<template x-if="allvideo">
+<div>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4 sm:gap-8">
+<template x-for="(item,i) in allvideo">
+<template x-if="20*(page-1)<=i&&i<20*page">  
+<a :href="'./player.html?type=player&seasonid='+$store.tu.seasonid+'&title='+item.title+'&bv='+item.bvid+'&pic='+item.cover+'&back=playlist&ver='+version" data-reload="videopage" class="zeload"
+ data-container="container" :data-title="item.title" data-mask>
+<div class="media media-16x9 rounded-lg shadow-lg">
+<img :src="item.cover+'@190w_143h_1e.webp'" class="w-full h-full object-cover media-content rounded-lg">
+</div>
+<p x-text="item.title" class="mt-2 text-sm line-1"></p>
+</a>
+</template>
+</template>
+</div>
+
+
+<div class="text-center text-sm text-white mt-5">
+<template x-for="p in (Math.ceil(total/20))">
+<button class="px-4 py-2 bg-blue-500 rounded-md mx-1" :class="{'bg-blue-300':page==p}" @click="
+page=p;
+fetch(apiurl+page).then(data => data.json()).then(data=>{
+[].slice.call(document.querySelectorAll('.playlistpage')).forEach(function (playlistpage) {
+playlistpage.scrollTo(0, 0);
+});
+allvideo=data.data.medias;
+})
+" x-text="p"></button>
+</template>
+</div>
+
+</div>
+</template>
+</div>
+</template>
+
+
+
+
+
+
+</div>
+</div>

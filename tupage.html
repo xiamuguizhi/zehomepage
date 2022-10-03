@@ -1,0 +1,34 @@
+<div class="sticky z-10 top-0 px-2 py-2 sm:py-2.5 flex items-center border-b-2 border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 dark:text-white" data-role="header">
+    	<a href="#tuku" class="p-2" data-rel="back" title="返回"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+</svg>
+</a>
+        <h1 class="line-1 border-l border-gray-500 px-2">查看图片</h1>
+</div>
+
+<div id="photobox" x-data="{des:null,item:alltu[$store.tu.id]}" class="pageback content px-2 md:px-4">
+<div class="container max-w-screen-xl mx-auto">
+<div class="my-5 rounded-lg text-center bg-gray-100 dark:bg-gray-900 shadow-lg p-4 dark:text-white">
+<span x-init="if(item.title){des=item.title;}else{des=item.description;}"
+x-text="des"></span>
+</div>
+
+
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<template x-for="(tu,i) in item.pictures">
+<div
+x-data="{k:false}" 
+x-init="if(item.count%2==1&&i==0){k=true}" 
+class="media media-16x9 rounded-lg shadow-lg" :class="{'col-span-2':k}">
+<img :src="tu.img_src+'@190w_143h_1e.webp'" :zoomSrc="tu.img_src" class="w-full h-full object-cover media-content rounded-lg shadow-lg" :alt="des" onerror="this.classList.add('error');">
+</div>
+</template>
+</div>
+
+
+
+
+
+</div>
+</div>
